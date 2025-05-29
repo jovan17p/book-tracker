@@ -1,22 +1,19 @@
-# Koristi zvanični PHP image kao osnovu
 FROM php:8.2-cli
 
-# Instaliraj potrebne sisteme za rad sa PHP-om
+# Instalacija potrebnih ekstenzija
 RUN apt-get update && apt-get install -y \
-    git unzip curl libpq-dev libzip-dev zip \
+    git unzip libpq-dev libzip-dev zip \
     && docker-php-ext-install pdo pdo_pgsql zip
 
-# Instaliraj Composer (PHP dependency manager)
+# Instalacija Composer-a
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Postavi radni direktorijum u kontejneru
+# Radni direktorijum
 WORKDIR /app
+COPY . /app
 
-# Kopiraj sve fajlove iz lokalnog direktorijuma u radni direktorijum u Dockeru
-COPY . .
+# Instalacija PHP dependencija
+RUN composer install --no-interaction
 
-# Instaliraj PHP dependencije (Composer)
-RUN composer install --no-dev --optimize-autoloader
-
-# Pokreni PHP server na portu 10000
-CMD php -S 0.0.0.0:10000 -t public
+# Defaultni port i komanda
+CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]

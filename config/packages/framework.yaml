@@ -2,12 +2,19 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    # CSRF, forms, sessions rade samo uz validnu session konfiguraciju
+    session:
+        handler_id: null
+        storage_factory_id: session.storage.factory.native
+        cookie_secure: auto
+        cookie_samesite: lax
 
-    #esi: true
-    #fragments: true
-
+    # Ako koristiš form builder i CSRF
+    csrf_protection: true
+    form: true
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks: ['en']
 when@test:
     framework:
         test: true

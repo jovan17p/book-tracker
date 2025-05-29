@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: book-tracker
+    env: php
+    buildCommand: "./.render/build.sh"
+    startCommand: "./.render/start.sh"
+    plan: free
+    branch: main
+    rootDir: .

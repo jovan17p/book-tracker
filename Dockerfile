@@ -11,7 +11,7 @@ COPY . .
 
 RUN composer install --no-interaction --optimize-autoloader
 
-# ✅ DODATO: Folder za sesije
-RUN mkdir -p /app/var/sessions && chmod -R 777 /app/var
+# Folderi za sesiju i keš da CSRF može da radi
+RUN mkdir -p var/cache var/log var/sessions && chmod -R 777 var
 
 CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]

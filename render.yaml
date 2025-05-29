@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: book-tracker
-    env: docker
-    plan: free
-    branch: main
-    dockerfilePath: ./Dockerfile
-    buildCommand: ""
-    startCommand: ""

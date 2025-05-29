@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Admin Panel'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>🛡 {{ 'Admin Panel – Lista korisnika'|trans }}</h1>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'Email'|trans }}</th>
+                <th>{{ 'Uloge'|trans }}</th>
+                <th>{{ 'Broj knjiga'|trans }}</th>
+                <th>{{ 'Akcija'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles | join(', ') }}</td>
+                    <td>{{ user.books | length }}</td>
+                    <td>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <a href="{{ path('admin_change_role', { id: user.id }) }}">{{ 'Ukloni Admin'|trans }}</a>
+                        {% else %}
+                            <a href="{{ path('admin_change_role', { id: user.id }) }}">{{ 'Dodeli Admin'|trans }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Moje knjige'|trans }}{% endblock %}
+
+{% block body %}
+    <h2>📚 {{ 'Moje knjige'|trans }}</h2>
+
+    <div class="book-grid">
+        {% for book in books %}
+            <div class="book-box">
+                <h3>{{ book.title }}</h3>
+                <p><strong>{{ 'Autor'|trans }}:</strong> {{ book.author }}</p>
+                <p>📅 {{ 'Dodato'|trans }}: {{ book.createdAt|date('d.m.Y') }}</p>
+                <p>👁️ {{ 'Pregleda'|trans }}: {{ book.views }}</p>
+                <p>💬 {{ 'Komentara'|trans }}: {{ book.comments|length }}</p>
+                
+                <p><a href="{{ path('book_show', { id: book.id }) }}">🔍 {{ 'Pogledaj'|trans }}</a></p>
+
+                <div>
+                    <a href="{{ path('book_like', { id: book.id }) }}" class="like-btn">❤️</a>
+                    {{ book.likes|length }}
+                    <a href="{{ path('book_dislike', { id: book.id }) }}" class="dislike-btn">💔</a>
+                    {{ book.dislikes|length }}
+                </div>
+            </div>
+        {% else %}
+            <p>{{ 'Još uvek nemaš nijednu knjigu.'|trans }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

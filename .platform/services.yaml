@@ -1,0 +1,9 @@
+services:
+    app:
+        type: "php:8.1"
+        disk: 1024
+        environment_variables:
+            SYMFONY_ENV: prod
+            DATABASE_URL: "%database_url%"
+        mounts:
+            '/app': 'shared:files'

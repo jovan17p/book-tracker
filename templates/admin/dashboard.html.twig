@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Admin panel'|trans }}{% endblock %}
+
+{% block body %}
+<div class="centered-page">
+    <h2>🛠️ {{ 'Administrativni panel'|trans }}</h2>
+    <p>{{ 'Dobrodošli u administrativni panel, ovde možete upravljati svim knjigama, korisnicima i drugim postavkama.'|trans }}</p>
+
+    <ul>
+        <li><a href="{{ path('book_list') }}">📚 {{ 'Pogledaj sve knjige'|trans }}</a></li>
+        <li><a href="{{ path('book_new') }}">➕ {{ 'Dodaj novu knjigu'|trans }}</a></li>
+        <li><a href="{{ path('admin_user_list') }}">👥 {{ 'Upravljaj korisnicima'|trans }}</a></li>
+    </ul>
+</div>
+{% endblock %}

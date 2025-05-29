@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Detalji knjige'|trans }}{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h2>{{ book.title }}</h2>
+    <p><strong>{{ 'Autor'|trans }}:</strong> {{ book.author }}</p>
+    <p class="book-owner">
+        📚 {{ 'Dodao knjigu'|trans }}:
+        <a href="{{ path('user_profile', {'id': book.owner.id}) }}">
+            {{ book.owner.username ?: book.owner.email }}
+        </a>
+    </p>
+    <p>👁️ {{ 'Pregleda'|trans }}: {{ book.views }}</p>
+
+    {# Like/Dislike za knjigu #}
+    <div style="margin-top: 15px;">
+        <a href="{{ path('book_like', {'id': book.id}) }}" class="like-btn" title="{{ 'Sviđa mi se ❤️'|trans }}">❤️</a>
+
+        <span class="tooltip-wrapper">
+            {{ book.likes|length }}
+            <span class="tooltip-text">
+                {% for u in book.likes %}
+                    {{ u.username ?: u.email }}<br>
+                {% endfor %}
+            </span>
+        </span>
+
+        <a href="{{ path('book_dislike', {'id': book.id}) }}" class="dislike-btn" title="{{ 'Ne sviđa mi se 💔'|trans }}">💔</a>
+
+        <span class="tooltip-wrapper">
+            {{ book.dislikes|length }}
+            <span class="tooltip-text">
+                {% for u in book.dislikes %}
+                    {{ u.username ?: u.email }}<br>
+                {% endfor %}
+            </span>
+        </span>
+    </div>
+
+    <hr>
+    <h3>{{ 'Ostavi komentar:'|trans }}</h3>
+    {{ form_start(form) }}
+        {{ form_widget(form.content, {'attr': {'placeholder': 'Napiši komentar...'|trans}}) }}
+        <button type="submit" class="btn btn-primary">{{ 'Pošalji komentar'|trans }}</button>
+    {{ form_end(form) }}
+
+    <hr>
+    <h3>{{ 'Komentari:'|trans }}</h3>
+    {% if book.comments|length == 0 %}
+        <p>{{ 'Još uvek nema komentara.'|trans }}</p>
+    {% else %}
+        <ul class="comment-list">
+            {% for comment in book.comments %}
+                <li class="comment-box">
+                    <p class="comment-content">{{ comment.content }}</p>
+                    <p class="comment-meta">
+                        {{ 'Objavio'|trans }}:
+                        <a href="{{ path('user_profile', {'id': comment.user.id}) }}">
+                            {{ comment.user.username ?: comment.user.email }}
+                        </a>
+                        ({{ comment.createdAt|date('d.m.Y H:i') }})
+                    </p>
+                    <div>
+                        <a href="{{ path('comment_like', {'id': comment.id}) }}" class="like-btn" title="{{ 'Sviđa mi se 👍'|trans }}">👍</a>
+                        <span class="tooltip-wrapper">
+                            {{ comment.likes|length }}
+                            <span class="tooltip-text">
+                                {% for u in comment.likes %}
+                                    {{ u.username ?: u.email }}<br>
+                                {% endfor %}
+                            </span>
+                        </span>
+
+                        <a href="{{ path('comment_dislike', {'id': comment.id}) }}" class="dislike-btn" title="{{ 'Ne sviđa mi se 👎'|trans }}">👎</a>
+                        <span class="tooltip-wrapper">
+                            {{ comment.dislikes|length }}
+                            <span class="tooltip-text">
+                                {% for u in comment.dislikes %}
+                                    {{ u.username ?: u.email }}<br>
+                                {% endfor %}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p><a href="{{ path('book_list') }}">{{ 'Nazad na listu knjiga'|trans }}</a></p>
+</div>
+{% endblock %}

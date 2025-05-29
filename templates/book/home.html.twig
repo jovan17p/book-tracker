@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Početna'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>📖 {{ 'Dobrodošao u Book Tracker!'|trans }}</h1>
+
+    <p>{{ 'Ovo je tvoja početna strana aplikacije.'|trans }}</p>
+
+    <a href="{{ path('book_list') }}">➡ {{ 'Vidi sve knjige'|trans }}</a>
+{% endblock %}

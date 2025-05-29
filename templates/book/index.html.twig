@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Lista knjiga'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="books-header" style="flex-direction: column; align-items: flex-start; margin-bottom: 10px;">
+            <h1 style="font-size: 1.5rem;">📚 {{ 'Lista knjiga'|trans }}</h1>
+            <form method="get" action="{{ path('book_list') }}" class="sort-form-clean">
+                <label for="sort">{{ 'Sortiraj po:'|trans }}</label>
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="">{{ '-- Izaberi --'|trans }}</option>
+                    <option value="title_asc" {{ app.request.get('sort') == 'title_asc' ? 'selected' : '' }}>{{ 'Naziv A-Z'|trans }}</option>
+                    <option value="title_desc" {{ app.request.get('sort') == 'title_desc' ? 'selected' : '' }}>{{ 'Naziv Z-A'|trans }}</option>
+                    <option value="date_newest" {{ app.request.get('sort') == 'date_newest' ? 'selected' : '' }}>{{ 'Najnovije'|trans }}</option>
+                    <option value="date_oldest" {{ app.request.get('sort') == 'date_oldest' ? 'selected' : '' }}>{{ 'Najstarije'|trans }}</option>
+                </select>
+            </form>
+        </div>
+
+        <ul class="book-list">
+            {% for book in books %}
+                <li class="book-item-compact">
+                    <div class="book-main">
+                        <div class="book-info">
+                            <strong>{{ book.title }}</strong> - {{ book.author }}
+                            {% if book.owner %}
+                                <span class="book-owner">({{ 'dodao'|trans }}: {{ book.owner.username ?: book.owner.email }})</span>
+                            {% endif %}
+                            <div class="book-date">📅 {{ book.createdAt ? book.createdAt|date('d.m.Y H:i') : 'Nepoznato'|trans }}</div>
+                        </div>
+                        <div class="book-actions">
+                            <a href="{{ path('book_edit', { id: book.id }) }}" class="btn btn-warning btn-sm">✏️</a>
+                            <a href="{{ path('book_delete', { id: book.id }) }}" onclick="return confirm('{{ 'Obrisati?'|trans }}');" class="btn btn-danger btn-sm">🗑️</a>
+                        </div>
+                    </div>
+
+                    <div class="book-comments">
+                        <h4>{{ 'Komentari:'|trans }}</h4>
+                        {% if book.comments|length > 0 %}
+                            <ul class="comment-list">
+                                {% for comment in book.comments|slice(0,2) %}
+                                    <li>
+                                        <strong>{{ comment.user.username ?: comment.user.email }}</strong>: {{ comment.content }}
+                                        <small class="comment-date">{{ comment.createdAt|date('d.m.Y H:i') }}</small>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p class="text-muted">{{ 'Nema komentara.'|trans }}</p>
+                        {% endif %}
+
+                        <form method="post" action="{{ path('book_add_comment', { id: book.id }) }}">
+                            {{ commentForms[book.id].content.vars.widget|raw }}
+                            <button type="submit" class="btn btn-primary btn-sm">💬 {{ 'Pošalji komentar'|trans }}</button>
+                        </form>
+                    </div>
+                </li>
+            {% else %}
+                <li class="book-item-compact">{{ 'Nema knjiga u bazi.'|trans }}</li>
+            {% endfor %}
+        </ul>
+
+        <div class="text-center" style="margin-top: 1rem;">
+            <a href="{{ path('book_new') }}" class="btn btn-success">➕ {{ 'Dodaj novu knjigu'|trans }}</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Profil korisnika'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <h2>{{ 'Profil korisnika:'|trans }} {{ userProfile.username ?: userProfile.email }}</h2>
+
+        <h3>{{ 'Dodate knjige:'|trans }}</h3>
+        {% if userProfile.books|length == 0 %}
+            <p>{{ 'Nema dodatih knjiga.'|trans }}</p>
+        {% else %}
+            <ul class="book-grid">
+                {% for book in userProfile.books %}
+                    <li class="book-box">
+                        <strong>{{ book.title }}</strong><br>
+                        {{ 'Autor'|trans }}: {{ book.author }}<br>
+                        {{ 'Lajkovi'|trans }}: {{ book.likes|length }}<br>
+                        {{ 'Pregledi'|trans }}: {{ book.views }}
+                        <br>
+                        <a href="{{ path('book_show', {'id': book.id}) }}">{{ 'Pogledaj knjigu'|trans }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <h3>{{ 'Komentari:'|trans }}</h3>
+        {% if userProfile.comments|length == 0 %}
+            <p>{{ 'Nema komentara.'|trans }}</p>
+        {% else %}
+            <ul class="comment-list">
+                {% for comment in userProfile.comments %}
+                    <li class="comment-box">
+                        <strong>{{ comment.book.title }}</strong><br>
+                        {{ comment.content }}<br>
+                        <small>{{ comment.createdAt|date('d.m.Y H:i') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

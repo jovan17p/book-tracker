@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Prijava'|trans }}{% endblock %}
+
+{% block body %}
+    <h1 class="form-title">🔐 {{ 'Prijava'|trans }}</h1>
+
+    {% if error %}
+        <div style="color: red;">
+            {{ 'Neuspešna prijava:'|trans }} {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form method="post" class="login-form">
+        <label for="email">{{ 'Email'|trans }}:</label>
+        <input type="text" id="email" name="_username" value="{{ last_username }}" required autofocus>
+        <br><br>
+
+        <label for="password">{{ 'Lozinka'|trans }}:</label>
+        <input type="password" id="password" name="_password" required>
+        <br><br>
+
+        <button type="submit">{{ 'Prijavi se'|trans }}</button>
+    </form>
+{% endblock %}

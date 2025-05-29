@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Izmena knjige'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>✏️ {{ 'Izmeni knjigu'|trans }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">💾 {{ 'Sačuvaj izmene'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('book_list') }}">⬅ {{ 'Nazad na listu'|trans }}</a>
+{% endblock %}

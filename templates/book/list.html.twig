@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Sve knjige'|trans }}{% endblock %}
+
+{% block body %}
+<h2>📚 {{ 'Sve knjige'|trans }}</h2>
+
+<div class="book-grid">
+    {% for book in books %}
+        <div class="book-box">
+            <h3>{{ book.title }}</h3>
+            <p><strong>{{ 'Autor'|trans }}:</strong> {{ book.author }}</p>
+            <p>{{ 'Dodao'|trans }}: {{ book.owner.username ?? book.owner.email }}</p>
+            <p><a href="{{ path('book_show', {id: book.id}) }}">{{ 'Pogledaj'|trans }}</a></p>
+
+            <div>
+                <a href="{{ path('book_like', {'id': book.id}) }}" class="like-btn" title="{{ 'Sviđa mi se ❤️'|trans }}">❤️</a>
+                <span class="tooltip-wrapper">
+                    <span class="tooltip-text">
+                        {{ book.likes|length > 0 
+                            ? book.likes|map(u => u.username ?? u.email)|join(', ') 
+                            : 'Niko još nije lajkovao.'|trans }}
+                    </span>
+                    {{ book.likes|length }}
+                </span>
+
+                <a href="{{ path('book_dislike', {'id': book.id}) }}" class="dislike-btn" title="{{ 'Ne sviđa mi se 💔'|trans }}">💔</a>
+                <span class="tooltip-wrapper">
+                    <span class="tooltip-text">
+                        {{ book.dislikes|length > 0 
+                            ? book.dislikes|map(u => u.username ?? u.email)|join(', ') 
+                            : 'Niko još nije dislajkovao.'|trans }}
+                    </span>
+                    {{ book.dislikes|length }}
+                </span>
+            </div>
+
+            <p><strong>{{ 'Komentari'|trans }}:</strong><br>
+                {% if book.comments|length == 0 %}
+                    {{ 'Nema komentara'|trans }}
+                {% else %}
+                    {{ book.comments|last.content }}
+                    <small>({{ book.comments|last.createdAt|date('d.m.Y H:i') }})</small>
+                    <br>
+                    <span style="font-size: 12px;">{{ 'Autor komentara'|trans }}: {{ book.comments|last.user.username ?? book.comments|last.user.email }}</span>
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

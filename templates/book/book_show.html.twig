@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.title }} - {{ 'Detalji'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ book.title }} - {{ book.author }}</h1>
+    <p>{{ book.description }}</p> <!-- Prikazivanje opisa knjige -->
+
+    <!-- Komentari -->
+    <h3>{{ 'Komentari:'|trans }}</h3>
+    <ul>
+        {% for comment in book.comments %}
+            <li><strong>{{ comment.user.email }}</strong>: {{ comment.content }}</li>
+        {% else %}
+            <li>{{ 'Još uvek nema komentara za ovu knjigu.'|trans }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Forma za dodavanje komentara -->
+    <h3>{{ 'Dodaj komentar:'|trans }}</h3>
+    <form method="POST" action="{{ path('book_comment', { id: book.id }) }}">
+        <textarea name="comment" placeholder="{{ 'Napiši komentar...'|trans }}" required></textarea>
+        <button type="submit">{{ 'Dodaj komentar'|trans }}</button>
+    </form>
+
+    <!-- Prikazivanje opcija za izmenu i brisanje ako je korisnik vlasnik knjige ili admin -->
+    {% if app.user == book.owner or is_granted('ROLE_ADMIN') %}
+        <div>
+            <a href="{{ path('book_edit', { id: book.id }) }}">{{ 'Izmeni knjigu'|trans }}</a>
+            <a href="{{ path('book_delete', { id: book.id }) }}" onclick="return confirm('{{ 'Da li ste sigurni da želite da obrišete ovu knjigu?'|trans }}');">{{ 'Obriši knjigu'|trans }}</a>
+        </div>
+    {% endif %}
+
+    <a href="{{ path('book_list') }}">{{ 'Nazad na listu knjiga'|trans }}</a>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ 'Book Tracker'|trans }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ path('book_list') }}">{{ 'Početna'|trans }}</a></li>
+                <li><a href="{{ path('book_new') }}">{{ 'Dodaj knjigu'|trans }}</a></li>
+                {% if app.user %}
+                    <li><a href="{{ path('my_books') }}">📘 {{ 'Moje knjige'|trans }}</a></li>
+                    <li><a href="{{ path('user_profile', {'id': app.user.id}) }}">👤 {{ 'Profil'|trans }}</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('admin_dashboard') }}">{{ 'Admin panel'|trans }}</a></li>
+                {% endif %}
+                {% if app.user %}
+                    <li><a href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">{{ 'Login'|trans }}</a></li>
+                    <li><a href="{{ path('app_register') }}">{{ 'Registracija'|trans }}</a></li>
+                {% endif %}
+            </ul>
+
+            <!-- Language switcher sa regex-om -->
+            <div style="margin-left: 1rem;">
+                <select onchange="switchLocale(this.value)">
+                    <option value="sr" {% if app.request.locale == 'sr' %}selected{% endif %}>🇷🇸 Српски</option>
+                    <option value="en" {% if app.request.locale == 'en' %}selected{% endif %}>🇬🇧 English</option>
+                    <option value="fr" {% if app.request.locale == 'fr' %}selected{% endif %}>🇫🇷 Français</option>
+                </select>
+            </div>
+
+            <!-- Dark mode toggle button -->
+            <button id="darkModeToggle" class="dark-mode-btn">🌙</button>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block body %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Book Tracker. {{ 'Sva prava zadržana.'|trans }}</p>
+            <p><a href="#">{{ 'Kontakt'|trans }}</a> | <a href="#">{{ 'Privatnost'|trans }}</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.textContent = '🌞';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeToggle.textContent = '🌞';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                darkModeToggle.textContent = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // Language switcher
+        function switchLocale(locale) {
+            const path = window.location.pathname;
+            const cleanPath = path.replace(/^\/(sr|en|fr)/, '');
+            window.location.href = '/' + locale + cleanPath + window.location.search;
+        }
+    </script>
+
+</body>
+</html>

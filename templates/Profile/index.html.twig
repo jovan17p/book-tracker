@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Moj profil'|trans }}{% endblock %}
+
+{% block body %}
+<h2>{{ 'Profil korisnika:'|trans }} {{ user.username ?: user.email }}</h2>
+
+<h3>{{ 'Moje knjige:'|trans }}</h3>
+<ul>
+    {% for book in books %}
+        <li>
+            <strong>{{ book.title }}</strong> - {{ book.views }} {{ 'pregleda'|trans }},
+            ❤️ {{ book.likes|length }}, 💔 {{ book.dislikes|length }}
+            (<a href="{{ path('book_show', {'id': book.id}) }}">{{ 'pogledaj'|trans }}</a>)
+        </li>
+    {% else %}
+        <li>{{ 'Niste još dodali nijednu knjigu.'|trans }}</li>
+    {% endfor %}
+</ul>
+
+<h3>{{ 'Moji komentari:'|trans }}</h3>
+<ul>
+    {% for comment in comments %}
+        <li>
+            {{ comment.content }} {{ 'na knjigu'|trans }}
+            <a href="{{ path('book_show', {'id': comment.book.id}) }}">{{ comment.book.title }}</a>
+        </li>
+    {% else %}
+        <li>{{ 'Niste ostavili nijedan komentar.'|trans }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

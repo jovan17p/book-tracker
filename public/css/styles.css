@@ -1,0 +1,283 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI Emoji', Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #eee;
+}
+
+/* Header */
+header {
+    background-color: #333;
+    padding: 15px 0;
+    text-align: center;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #333;
+    transition: background-color 0.3s ease;
+}
+
+header nav ul li a:hover,
+nav ul li a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dark Mode Button */
+.dark-mode-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+}
+
+.dark-mode-btn:hover {
+    background-color: #555;
+}
+
+/* Main Content */
+.content {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Book Grid */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 20px;
+}
+
+.book-box {
+    background-color: #f9fafe;
+    border: 2px solid #dbe3f0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s;
+}
+
+.book-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .book-box {
+    background-color: #1e1e1e;
+    border-color: #444;
+    color: #ddd;
+}
+
+/* Book Info */
+.book-details p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.book-owner {
+    font-size: 16px;
+    margin-top: 5px;
+    color: #777;
+}
+
+body.dark-mode .book-owner {
+    color: #bbb;
+}
+
+/* Comments */
+.comment-section {
+    margin-top: 40px;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 700px;
+}
+
+.comment-box {
+    background-color: #f1f3f5;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.comment-content {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.comment-meta {
+    font-size: 13px;
+    color: #666;
+}
+
+.comment-date {
+    color: #999;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+body.dark-mode .comment-box {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: #ddd;
+}
+
+body.dark-mode .comment-meta {
+    color: #aaa;
+}
+
+body.dark-mode .comment-date {
+    color: #888;
+}
+
+/* Comment Form */
+.comment-form {
+    margin-top: 10px;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.comment-form button {
+    margin-top: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #0056b3;
+}
+
+body.dark-mode .comment-form textarea {
+    background-color: #222;
+    color: #eee;
+    border: 1px solid #555;
+}
+
+body.dark-mode .comment-form button {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Like / Dislike Buttons */
+.like-btn,
+.dislike-btn {
+    font-size: 22px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+}
+
+.like-btn:hover {
+    transform: scale(1.2);
+    color: #28a745;
+}
+
+.dislike-btn:hover {
+    transform: scale(1.2);
+    color: #dc3545;
+}
+
+/* Tooltip */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: max-content;
+    max-width: 300px;
+    background-color: #222;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 6px 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 13px;
+    white-space: pre-line;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-wrapper:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

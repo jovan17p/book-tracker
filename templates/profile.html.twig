@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Moj Profil'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'Profil korisnika'|trans }} {{ app.user.email }}</h1>
+
+    <h2>{{ 'Knjige koje ste dodali:'|trans }}</h2>
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong> {{ 'od'|trans }} {{ book.author }} - 
+                {{ 'Dodato'|trans }}: {{ book.createdAt|date('d-m-Y') }}
+                <a href="{{ path('book_edit', {'id': book.id}) }}">{{ 'Izmeni'|trans }}</a> |
+                <a href="{{ path('book_delete', {'id': book.id}) }}" onclick="return confirm('{{ 'Da li ste sigurni da želite da obrišete ovu knjigu?'|trans }}')">{{ 'Obriši'|trans }}</a>
+            </li>
+        {% else %}
+            <li>{{ 'Nema knjiga koje ste dodali.'|trans }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>{{ 'Vaši komentari:'|trans }}</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                {{ comment.content }} - {{ 'Knjiga'|trans }}: <strong>{{ comment.book.title }}</strong>
+            </li>
+        {% else %}
+            <li>{{ 'Nemate komentare.'|trans }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('book_new') }}" class="btn btn-success">{{ 'Dodaj novu knjigu'|trans }}</a>
+{% endblock %}

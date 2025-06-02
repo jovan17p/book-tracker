@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Lista korisnika'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>👥 {{ 'Svi korisnici'|trans }}</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('info') %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="text-align: left; padding: 8px;">{{ 'Email'|trans }}</th>
+                    <th style="text-align: left; padding: 8px;">{{ 'Role'|trans }}</th>
+                    <th style="text-align: left; padding: 8px;">{{ 'Akcija'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr style="background-color: white; border-bottom: 1px solid #ccc;">
+                        <td style="padding: 8px;">{{ user.email }}</td>
+                        <td style="padding: 8px;">{{ user.roles|join(', ') }}</td>
+                        <td style="padding: 8px;">
+                            {% if 'ROLE_ADMIN' not in user.roles %}
+                                <a href="{{ path('admin_make_user_admin', { id: user.id }) }}" class="btn btn-success">➕ {{ 'Dodaj kao admin'|trans }}</a>
+                            {% else %}
+                                ✅ {{ 'Već je admin'|trans }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

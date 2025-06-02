@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'Dodaj novu knjigu'|trans }}{% endblock %}
+
+{% block body %}
+<div class="centered-page">
+    <h1>📖 {{ 'Dodaj novu knjigu'|trans }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success mt-3">💾 {{ 'Sačuvaj'|trans }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('book_list') }}">← {{ 'Nazad na listu'|trans }}</a>
+</div>
+{% endblock %}
